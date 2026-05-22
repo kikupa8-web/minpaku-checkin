@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invalid Link</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="progress-bar"><div class="progress-bar__fill" style="width:0%"></div></div>
+  <div class="error-page">
+    <div class="error-card">
+      <div class="error-dot"></div>
+      <h1 class="error-title" id="errorTitle">無効なリンクです</h1>
+      <p class="error-message" id="errorMessage">お手数ですがオーナーまでご連絡ください。<br>リンクの有効期限が切れているか、すでに使用済みの可能性があります。</p>
+      <div class="error-contact">
+        <p id="contactLabel">お問い合わせ</p>
+        <p><a href="mailto:host@marugame-stay.jp">host@marugame-stay.jp</a></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const translations = {
+      ja: { title: '無効なリンクです', message: 'お手数ですがオーナーまでご連絡ください。<br>リンクの有効期限が切れているか、すでに使用済みの可能性があります。', contact: 'お問い合わせ' },
+      en: { title: 'Invalid Link', message: 'Please contact the property owner.<br>This link may have expired or already been used.', contact: 'Contact' },
+      zh: { title: '链接无效', message: '请联系房东。<br>该链接可能已过期或已被使用。', contact: '联系方式' },
+      ko: { title: '유효하지 않은 링크입니다', message: '호스트에게 문의해 주세요.<br>링크가 만료되었거나 이미 사용되었을 수 있습니다.', contact: '문의처' }
+    };
+    const lang = new URLSearchParams(location.search).get('lang') || 'ja';
+    const t = translations[lang] || translations.ja;
+    document.getElementById('errorTitle').textContent = t.title;
+    document.getElementById('errorMessage').innerHTML = t.message;
+    document.getElementById('contactLabel').textContent = t.contact;
+    document.documentElement.lang = lang;
+  </script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; connect-src https://script.google.com https://script.googleusercontent.com; img-src 'self' data: blob:; form-action 'self'; frame-ancestors 'none'; base-uri 'self';">
+  <title data-i18n="page_title">チェックイン情報登録</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar__fill" id="progressFill"></div>
+  </div>
+
+  <!-- Language Switcher -->
+  <nav class="lang-switcher" aria-label="Language">
+    <button type="button" data-lang="ja" class="active">日本語</button>
+    <span class="lang-separator" aria-hidden="true"></span>
+    <button type="button" data-lang="en">English</button>
+    <span class="lang-separator" aria-hidden="true"></span>
+    <button type="button" data-lang="zh">中文</button>
+    <span class="lang-separator" aria-hidden="true"></span>
+    <button type="button" data-lang="ko">한국어</button>
+  </nav>
+
+  <!-- Screen Reader Announcements -->
+  <div id="liveRegion" aria-live="polite" role="status"></div>
+
+  <main class="form-container">
+    <form id="checkinForm" novalidate>
+
+      <!-- Header -->
+      <header class="form-header">
+        <p class="form-header__sub" data-i18n="checkin_info">チェックイン情報</p>
+        <h1 class="form-header__property" id="propertyName">@marugame</h1>
+        <p class="form-header__note">
+          <span>&#9201; <span data-i18n="est_time">所要時間 約5分</span></span>
+        </p>
+      </header>
+
+      <!-- Checkin Date -->
+      <section class="form-section" id="sectionCheckinDate">
+        <div class="guest-card">
+          <div class="guest-card__body">
+            <div class="field-row">
+              <label for="checkin_date"><span data-i18n="checkin_date">チェックイン日</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="input-wrap">
+                <input type="date" id="checkin_date" name="checkin_date" required aria-required="true">
+                <span class="input-check" aria-hidden="true">&#10003;</span>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Primary Guest -->
+      <section class="form-section" id="sectionPrimary">
+        <h2 class="section-title">
+          <span data-i18n="primary_guest">代表者（1人目）</span>
+          <span class="check-icon" aria-hidden="true">&#10003;</span>
+        </h2>
+
+        <div class="guest-card" id="primaryCard" data-role="primary">
+          <div class="guest-card__body">
+            <!-- Name -->
+            <div class="field-row">
+              <label for="primary_name"><span data-i18n="name">お名前</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="input-wrap">
+                <input type="text" id="primary_name" name="primary_name" required autocomplete="name" aria-required="true" data-i18n-placeholder="name_placeholder" placeholder="山田 太郎 / Taro Yamada">
+                <span class="input-check" aria-hidden="true">&#10003;</span>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+
+            <!-- Kana (shown for Japan residents) -->
+            <div class="field-row" id="primary_kana_row">
+              <label for="primary_kana"><span data-i18n="kana">フリガナ</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="input-wrap">
+                <input type="text" id="primary_kana" name="primary_kana" autocomplete="off" data-i18n-placeholder="kana_placeholder" placeholder="ヤマダ タロウ">
+                <span class="input-check" aria-hidden="true">&#10003;</span>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+
+            <!-- Birthday & Occupation -->
+            <div class="field-row field-row--inline">
+              <div>
+                <label for="primary_birthdate"><span data-i18n="birthdate">生年月日</span><span class="required" aria-hidden="true">&#9679;</span></label>
+                <div class="input-wrap">
+                  <input type="date" id="primary_birthdate" name="primary_birthdate" required aria-required="true">
+                  <span class="input-check" aria-hidden="true">&#10003;</span>
+                </div>
+                <div class="field-error" role="alert"></div>
+              </div>
+              <div>
+                <label for="primary_occupation"><span data-i18n="occupation">ご職業</span><span class="required" aria-hidden="true">&#9679;</span></label>
+                <div class="input-wrap">
+                  <input type="text" id="primary_occupation" name="primary_occupation" required aria-required="true" data-i18n-placeholder="occupation_placeholder" placeholder="会社員">
+                  <span class="input-check" aria-hidden="true">&#10003;</span>
+                </div>
+                <div class="field-error" role="alert"></div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="field-row">
+              <label for="primary_email"><span data-i18n="email">メールアドレス</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="input-wrap">
+                <input type="email" id="primary_email" name="primary_email" required inputmode="email" autocomplete="email" aria-required="true" placeholder="example@email.com">
+                <span class="input-check" aria-hidden="true">&#10003;</span>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+
+            <!-- Phone -->
+            <div class="field-row">
+              <label for="primary_phone"><span data-i18n="phone">電話番号</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="input-wrap">
+                <input type="tel" id="primary_phone" name="primary_phone" required inputmode="tel" autocomplete="tel" aria-required="true" placeholder="090-1234-5678">
+                <span class="input-check" aria-hidden="true">&#10003;</span>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+
+            <!-- Gender -->
+            <div class="field-row">
+              <label><span data-i18n="gender">性別</span></label>
+              <div class="gender-options">
+                <label class="radio-label">
+                  <input type="radio" name="primary_gender" value="male">
+                  <span data-i18n="gender_male">男性</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="primary_gender" value="female">
+                  <span data-i18n="gender_female">女性</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="primary_gender" value="other">
+                  <span data-i18n="gender_other">その他</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Residence -->
+            <div class="field-row">
+              <label><span data-i18n="residence_q">日本に住所がありますか？</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="primary_residence" value="japan" required aria-required="true">
+                  <span data-i18n="yes">はい</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="primary_residence" value="foreign">
+                  <span data-i18n="no">いいえ</span>
+                </label>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+
+            <!-- Japan Address (shown when residence=japan) -->
+            <div class="field-row" id="primary_address_row" style="display:none;">
+              <label for="primary_address"><span data-i18n="address">住所</span><span class="required" aria-hidden="true">&#9679;</span></label>
+              <div class="input-wrap">
+                <input type="text" id="primary_address" name="primary_address" autocomplete="street-address" data-i18n-placeholder="address_placeholder" placeholder="東京都渋谷区...">
+                <span class="input-check" aria-hidden="true">&#10003;</span>
+              </div>
+              <div class="field-error" role="alert"></div>
+            </div>
+
+            <!-- Foreign Block (shown when residence=foreign) -->
+            <div class="foreign-block" id="primary_foreign">
+              <p class="foreign-block__notice" data-i18n="foreign_notice">&#9888; 海外居住の方はパスポート情報が必要です（旅館業法）</p>
+
+              <div class="field-row">
+                <label for="primary_nationality"><span data-i18n="nationality">国籍</span><span class="required" aria-hidden="true">&#9679;</span></label>
+                <div class="input-wrap">
+                  <input type="text" id="primary_nationality" name="primary_nationality" list="nationalities" autocomplete="off" data-i18n-placeholder="nationality_placeholder" placeholder="国名を入力...">
+                  <span class="input-check" aria-hidden="true">&#10003;</span>
+                </div>
+                <div class="field-error" role="alert"></div>
+              </div>
+
+              <div class="field-row">
+                <label for="primary_passport_num"><span data-i18n="passport_number">パスポート番号</span><span class="required" aria-hidden="true">&#9679;</span></label>
+                <div class="input-wrap">
+                  <input type="text" id="primary_passport_num" name="primary_passport_num" autocomplete="off" placeholder="AB1234567" pattern="[A-Za-z0-9]+">
+                  <span class="input-check" aria-hidden="true">&#10003;</span>
+                </div>
+                <div class="field-error" role="alert"></div>
+              </div>
+
+              <div class="passport-upload">
+                <label><span data-i18n="passport_image">パスポート画像（顔写真ページ）</span><span class="required" aria-hidden="true">&#9679;</span></label>
+                <div class="passport-buttons">
+                  <button type="button" class="passport-btn passport-file-btn" aria-label="ファイル選択">
+                    &#128193; <span data-i18n="choose_file">ファイル選択</span>
+                    <input type="file" accept="image/*" class="passport-file-input">
+                  </button>
+                  <button type="button" class="passport-btn passport-camera-btn" aria-label="撮影する">
+                    &#128247; <span data-i18n="take_photo">撮影する</span>
+                    <input type="file" accept="image/*" capture="environment" class="passport-camera-input">
+                  </button>
+                </div>
+                <div class="passport-preview">
+                  <span class="passport-preview__check" aria-hidden="true">&#10003;</span>
+                  <span class="passport-preview__name"></span>
+                  <button type="button" class="passport-preview__remove" aria-label="削除">&times;</button>
+                </div>
+                <p class="passport-security">&#128274; <span data-i18n="encrypted_msg">暗号化通信で送信されます</span></p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Companions -->
+      <section class="form-section" id="sectionCompanions">
+        <h2 class="section-title">
+          <span data-i18n="companions">同行者</span>
+          <span class="check-icon" aria-hidden="true">&#10003;</span>
+        </h2>
+
+        <div id="companionCards"></div>
+
+        <button type="button" class="add-companion-btn" id="addCompanionBtn">
+          + <span data-i18n="add_companion">同行者を追加</span>
+        </button>
+        <p class="companion-note" data-i18n="companion_note">宿泊する方全員の情報をご登録ください</p>
+      </section>
+
+      <!-- Section 3: Agreements -->
+      <section class="form-section" id="sectionAgreements">
+        <h2 class="section-title">
+          <span data-i18n="agreements">同意事項</span>
+          <span class="check-icon" aria-hidden="true">&#10003;</span>
+        </h2>
+
+        <div class="guest-card">
+          <div class="agreement-item">
+            <label class="checkbox-label">
+              <input type="checkbox" id="agreePrivacy" required aria-required="true">
+              <span data-i18n="agree_privacy">個人情報の取り扱いに同意する</span>
+            </label>
+            <div class="agreement-detail">
+              <button type="button" class="agreement-toggle" data-target="privacyContent" data-i18n="show_detail">詳細を見る</button>
+              <div class="agreement-content" id="privacyContent" data-i18n-html="privacy_text">
+                <p>ご提供いただいた個人情報は、旅館業法に基づく宿泊者名簿の作成および管理の目的に限り使用いたします。</p>
+                <p style="margin-top:8px;">パスポート画像を含む個人情報は、チェックイン日から3年間保管した後、適切に削除いたします。第三者への提供は法令に基づく場合を除き行いません。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-error" id="agreementError" role="alert"></div>
+        </div>
+      </section>
+
+    </form>
+  </main>
+
+  <!-- Submit Bar -->
+  <div class="submit-bar">
+    <button type="button" class="submit-btn" id="submitBtn">
+      <span class="submit-spinner" aria-hidden="true"></span>
+      <span data-i18n="submit">登録する</span>
+    </button>
+  </div>
+
+  <!-- Nationality Datalist -->
+  <datalist id="nationalities"></datalist>
+
+  <script src="script.js"></script>
+</body>
+</html>

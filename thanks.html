@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Noto+Sans+JP:wght@400;500&family=Noto+Serif+JP:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="progress-bar"><div class="progress-bar__fill" style="width:100%;background:var(--color-primary)"></div></div>
+  <div class="thanks-page">
+    <div class="thanks-card">
+      <!-- Olive leaf SVG -->
+      <svg class="thanks-leaf" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M24 44V20"/>
+        <path d="M24 20C20 14 12 10 8 10c0 6 4 14 16 16"/>
+        <path d="M24 20C28 14 36 10 40 10c0 6-4 14-16 16"/>
+        <path d="M24 30C20 26 14 24 10 24c0 4 4 10 14 10"/>
+        <path d="M24 30C28 26 34 24 38 24c0 4-4 10-14 10"/>
+        <path d="M24 38C22 34 18 32 16 32c0 2 2 6 8 8"/>
+        <path d="M24 38C26 34 30 32 32 32c0 2-2 6-8 8"/>
+      </svg>
+
+      <h1 class="thanks-title" id="thanksTitle">ありがとうございました</h1>
+      <p class="thanks-subtitle" id="thanksSubtitle">ご登録が完了しました</p>
+
+      <div class="thanks-divider"></div>
+
+      <p class="thanks-property" id="thanksProperty">@marugame</p>
+      <p class="thanks-checkin" id="thanksCheckin"></p>
+
+      <p class="thanks-message" id="thanksMessage">皆さまのご到着を<br>心よりお待ちしております</p>
+
+      <div class="thanks-footer">
+        <p id="thanksContactLabel">お問い合わせ</p>
+        <p><a href="mailto:host@marugame-stay.jp">host@marugame-stay.jp</a></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    const translations = {
+      ja: { title: 'ありがとうございました', subtitle: 'ご登録が完了しました', checkinLabel: 'チェックイン日', message: '皆さまのご到着を<br>心よりお待ちしております', contact: 'お問い合わせ' },
+      en: { title: 'Thank You', subtitle: 'Registration complete', checkinLabel: 'Check-in date', message: 'We look forward to<br>welcoming you', contact: 'Contact' },
+      zh: { title: '谢谢', subtitle: '登记已完成', checkinLabel: '入住日期', message: '期待您的到来', contact: '联系方式' },
+      ko: { title: '감사합니다', subtitle: '등록이 완료되었습니다', checkinLabel: '체크인 날짜', message: '여러분의 도착을<br>진심으로 기다리고 있겠습니다', contact: '문의처' }
+    };
+
+    const params = new URLSearchParams(location.search);
+    const lang = params.get('lang') || 'ja';
+    const property = params.get('property') || '@marugame';
+    const checkin = params.get('checkin') || '';
+    const t = translations[lang] || translations.ja;
+
+    document.getElementById('thanksTitle').textContent = t.title;
+    document.getElementById('thanksSubtitle').textContent = t.subtitle;
+    document.getElementById('thanksProperty').textContent = property;
+    if (checkin) {
+      document.getElementById('thanksCheckin').textContent = t.checkinLabel + ' · ' + checkin.replace(/-/g, ' / ');
+    }
+    document.getElementById('thanksMessage').innerHTML = t.message;
+    document.getElementById('thanksContactLabel').textContent = t.contact;
+    document.documentElement.lang = lang;
+  </script>
+</body>
+</html>
